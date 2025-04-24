@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Anggota - Perpustakaan Nusantara</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700&family=Lora:wght@400;500&family=Poppins:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #e3f2fd;
+            color: #0d47a1;
+            font-family: 'Lora', serif;
+            padding-top: 70px;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: rgba(30, 136, 229, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar .logo {
+            color: #ffffff;
+            font-size: 28px;
+            font-weight: 700;
+            text-decoration: none;
+            font-family: 'Merriweather', serif;
+            animation: logoPulse 2s infinite ease-in-out;
+        }
+
+        .navbar .logo:hover {
+            transform: scale(1.05);
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+
+        @keyframes logoPulse {
+            0%, 100% { transform: scale(1); text-shadow: 0 0 5px rgba(255, 255, 255, 0.5); }
+            50% { transform: scale(1.03); text-shadow: 0 0 15px rgba(255, 255, 255, 0.8); }
+        }
+
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links li a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 300;
+            font-family: 'Poppins', sans-serif;
+            letter-spacing: 2px;
+            padding: 5px 0;
+            transition: color 0.3s ease, transform 0.3s ease, text-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links li a:hover {
+            color: #4db6ac;
+            transform: translateY(-2px);
+            text-shadow: 0 0 10px rgba(77, 182, 172, 0.5);
+        }
+
+        .nav-links li a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: #4db6ac;
+            transition: width 0.3s ease;
+        }
+
+        .nav-links li a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links li a i {
+            margin-right: 8px;
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            background: linear-gradient(135deg, #1e88e5 0%, #4db6ac 100%);
+            color: #ffffff;
+            padding: 40px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+            opacity: 0.2;
+        }
+
+        .welcome-section h1 {
+            font-size: 36px;
+            font-family: 'Merriweather', serif;
+            font-weight: 700;
+            margin-bottom: 10px;
+            animation: fadeInDown 1s ease-in-out;
+        }
+
+        .welcome-section p {
+            font-size: 18px;
+            font-family: 'Lora', serif;
+            animation: fadeInDown 1s ease-in-out 0.3s;
+            animation-fill-mode: backwards;
+        }
+
+        @keyframes fadeInDown {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Profile Section */
+        .profile-section {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        .profile-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .profile-card .profile-pic {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: #e3f2fd;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            color: #1e88e5;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .profile-card .profile-pic:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(30, 136, 229, 0.5);
+        }
+
+        .profile-card h2 {
+            font-size: 28px;
+            color: #1e88e5;
+            font-family: 'Merriweather', serif;
+            margin-bottom: 10px;
+        }
+
+        .profile-card p {
+            font-size: 16px;
+            color: #0d47a1;
+            margin-bottom: 10px;
+        }
+
+        .edit-btn {
+            background-color: #4db6ac;
+            color: #ffffff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 16px;
+            font-family: 'Merriweather', serif;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .edit-btn:hover {
+            background-color: #26a69a;
+            transform: scale(1.05);
+        }
+
+        .edit-btn:active {
+            transform: scale(0.95);
+        }
+
+        /* Loan History Section */
+        .loan-history {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 40px;
+            overflow-x: auto;
+        }
+
+        .loan-history h2 {
+            font-size: 28px;
+            color: #1e88e5;
+            font-family: 'Merriweather', serif;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e3f2fd;
+            font-family: 'Lora', serif;
+        }
+
+        th {
+            background: #1e88e5;
+            color: #ffffff;
+            font-weight: 700;
+        }
+
+        td {
+            color: #0d47a1;
+        }
+
+        tr:hover {
+            background: #e3f2fd;
+        }
+
+        /* Modal for Editing Profile */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .modal-content h2 {
+            font-size: 24px;
+            color: #1e88e5;
+            font-family: 'Merriweather', serif;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .modal-content input, .modal-content textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #1e88e5;
+            border-radius: 5px;
+            background-color: #fff;
+            transition: all 0.3s ease;
+            font-size: 16px;
+            color: #0d47a1;
+            font-family: 'Lora', serif;
+        }
+
+        .modal-content textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .modal-content input:focus, .modal-content textarea:focus {
+            outline: none;
+            border-color: #4db6ac;
+            box-shadow: 0 0 8px rgba(77, 182, 172, 0.5);
+            transform: scale(1.02);
+        }
+
+        .modal-content input::placeholder, .modal-content textarea::placeholder {
+            color: #1e88e5;
+            opacity: 0.7;
+        }
+
+        .modal-content button {
+            width: 100%;
+            padding: 12px;
+            background: #1e88e5;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            font-family: 'Merriweather', serif;
+            margin-top: 10px;
+        }
+
+        .modal-content button:hover {
+            background: #1565c0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-content button:active {
+            transform: scale(0.95);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            color: #1e88e5;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: #1565c0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .navbar .logo {
+                font-size: 24px;
+            }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: rgba(30, 136, 229, 0.9);
+                backdrop-filter: blur(10px);
+                padding: 20px;
+                gap: 15px;
+            }
+
+            .nav-links.active {
+                display: flex;
+            }
+
+            .nav-links li a {
+                font-size: 18px;
+                letter-spacing: 3px;
+            }
+
+            .welcome-section h1 {
+                font-size: 28px;
+            }
+
+            .welcome-section p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <a href="#" class="logo"><i class="fas fa-book"></i> Perpustakaan Nusantara</a>
+            <ul class="nav-links">
+                <li><a href="#dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+                <li><a href="#profile"><i class="fas fa-user"></i> Profil</a></li>
+                <li><a href="web.html" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Welcome Section -->
+    <section class="welcome-section">
+        <h1>Selamat Datang, <span id="memberName">Anggota</span>!</h1>
+        <p>Kelola profil Anda dan lihat riwayat peminjaman di sini.</p>
+    </section>
+
+    <!-- Profile Section -->
+    <section id="profile" class="profile-section">
+        <div class="profile-card">
+            <div class="profile-pic"><i class="fas fa-user"></i></div>
+            <h2 id="profileName">Nama Anggota</h2>
+            <p><strong>ID Anggota:</strong> <span id="profileId">N/A</span></p>
+            <p><strong>Username:</strong> <span id="profileUsername">N/A</span></p>
+            <p><strong>Status:</strong> <span id="profileStatus">N/A</span></p>
+            <p><strong>Bio:</strong> <span id="profileBio">-</span></p>
+            <p><strong>Nomor Telepon:</strong> <span id="profilePhone">-</span></p>
+            <p><strong>Alamat:</strong> <span id="profileAddress">-</span></p>
+            <a href="#" class="edit-btn" onclick="openEditModal()">Edit Profil</a>
+        </div>
+
+        <!-- Loan History -->
+        <div class="loan-history">
+            <h2>Riwayat Peminjaman</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID Peminjaman</th>
+                        <th>Judul Buku</th>
+                        <th>Tanggal Pinjam</th>
+                        <th>Tenggat</th>
+                    </tr>
+                </thead>
+                <tbody id="loanTableBody">
+                    <!-- Data akan diisi oleh JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Modal for Editing Profile -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeEditModal()">×</span>
+            <h2>Edit Profil</h2>
+            <input type="text" id="editFullName" placeholder="Nama Lengkap" required>
+            <input type="text" id="editPhone" placeholder="Nomor Telepon">
+            <textarea id="editAddress" placeholder="Alamat"></textarea>
+            <textarea id="editBio" placeholder="Bio"></textarea>
+            <button onclick="saveProfile()">Simpan Perubahan</button>
+        </div>
+    </div>
+
+    <script>
+        let currentMember = null;
+
+        // Initialize currentMember safely
+        function initializeMember() {
+            try {
+                const memberData = localStorage.getItem('currentMember');
+                if (memberData) {
+                    currentMember = JSON.parse(memberData);
+                }
+            } catch (error) {
+                console.error('Error parsing currentMember:', error);
+                localStorage.removeItem('currentMember');
+                redirectToLogin('Sesi Anda tidak valid. Silakan login kembali.');
+            }
+        }
+
+        // Redirect to login with message
+        function redirectToLogin(message) {
+            localStorage.removeItem('currentMember');
+            alert(message);
+            window.location.href = 'web.html';
+        }
+
+        // Check if member still exists in the database
+        function checkMemberStatus() {
+            if (!currentMember) {
+                redirectToLogin('Sesi Anda telah berakhir. Silakan login kembali.');
+                return false;
+            }
+
+            const members = JSON.parse(localStorage.getItem('members')) || [];
+            const memberExists = members.some(member => member.memberId === currentMember.memberId);
+            
+            if (!memberExists) {
+                redirectToLogin('Akun Anda telah dihapus. Silakan registrasi ulang.');
+                return false;
+            }
+            return true;
+        }
+
+        // Load profile data
+        function loadProfile() {
+            if (!currentMember) {
+                redirectToLogin('Silakan login terlebih dahulu.');
+                return;
+            }
+
+            try {
+                document.getElementById('memberName').textContent = currentMember.fullName || 'Anggota';
+                document.getElementById('profileName').textContent = currentMember.fullName || 'Nama Anggota';
+                document.getElementById('profileId').textContent = currentMember.memberId || 'N/A';
+                document.getElementById('profileUsername').textContent = currentMember.username || 'N/A';
+                document.getElementById('profileStatus').textContent = currentMember.status || 'N/A';
+                document.getElementById('profileBio').textContent = currentMember.bio || '-';
+                document.getElementById('profilePhone').textContent = currentMember.phone || '-';
+                document.getElementById('profileAddress').textContent = currentMember.address || '-';
+            } catch (error) {
+                console.error('Error loading profile:', error);
+                redirectToLogin('Terjadi kesalahan saat memuat profil. Silakan login kembali.');
+            }
+        }
+
+        // Load loan history
+        function loadLoanHistory() {
+            if (!currentMember) return;
+
+            const loans = JSON.parse(localStorage.getItem('loans')) || [];
+            const tbody = document.getElementById('loanTableBody');
+            tbody.innerHTML = '';
+
+            const memberLoans = loans.filter(loan => loan.memberName === currentMember.fullName);
+            if (memberLoans.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">Belum ada riwayat peminjaman.</td></tr>';
+                return;
+            }
+
+            memberLoans.forEach(loan => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${loan.loanId}</td>
+                    <td>${loan.bookTitle}</td>
+                    <td>${loan.loanDate}</td>
+                    <td>${loan.dueDate}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        // Open edit modal
+        function openEditModal() {
+            if (!currentMember) {
+                redirectToLogin('Sesi Anda telah berakhir. Silakan login kembali.');
+                return;
+            }
+
+            document.getElementById('editFullName').value = currentMember.fullName || '';
+            document.getElementById('editPhone').value = currentMember.phone || '';
+            document.getElementById('editAddress').value = currentMember.address || '';
+            document.getElementById('editBio').value = currentMember.bio || '';
+            document.getElementById('editModal').style.display = 'flex';
+        }
+
+        // Close edit modal
+        function closeEditModal() {
+            document.getElementById('editModal').style.display = 'none';
+        }
+
+        // Save profile changes
+        function saveProfile() {
+            if (!currentMember) {
+                redirectToLogin('Sesi Anda telah berakhir. Silakan login kembali.');
+                return;
+            }
+
+            const fullName = document.getElementById('editFullName').value.trim();
+            const phone = document.getElementById('editPhone').value.trim();
+            const address = document.getElementById('editAddress').value.trim();
+            const bio = document.getElementById('editBio').value.trim();
+
+            if (!fullName) {
+                alert('Nama Lengkap harus diisi!');
+                return;
+            }
+
+            let members = JSON.parse(localStorage.getItem('members')) || [];
+            const memberIndex = members.findIndex(member => member.memberId === currentMember.memberId);
+            if (memberIndex !== -1) {
+                // Update loans with new fullName if it changes
+                let loans = JSON.parse(localStorage.getItem('loans')) || [];
+                loans = loans.map(loan => {
+                    if (loan.memberName === currentMember.fullName) {
+                        loan.memberName = fullName;
+                    }
+                    return loan;
+                });
+                localStorage.setItem('loans', JSON.stringify(loans));
+
+                // Update member data
+                members[memberIndex].fullName = fullName;
+                members[memberIndex].phone = phone;
+                members[memberIndex].address = address;
+                members[memberIndex].bio = bio;
+                localStorage.setItem('members', JSON.stringify(members));
+
+                currentMember.fullName = fullName;
+                currentMember.phone = phone;
+                currentMember.address = address;
+                currentMember.bio = bio;
+                localStorage.setItem('currentMember', JSON.stringify(currentMember));
+
+                closeEditModal();
+                loadProfile();
+                loadLoanHistory();
+                alert('Profil berhasil diperbarui!');
+            }
+        }
+
+        // Logout
+        function logout() {
+            localStorage.removeItem('currentMember');
+        }
+
+        // Realtime check for updates
+        let lastMembersHash = '';
+        let lastLoansHash = '';
+
+        function hashData(data) {
+            return JSON.stringify(data);
+        }
+
+        function checkForUpdates() {
+            const members = JSON.parse(localStorage.getItem('members')) || [];
+            const loans = JSON.parse(localStorage.getItem('loans')) || [];
+
+            const currentMembersHash = hashData(members);
+            const currentLoansHash = hashData(loans);
+
+            if (currentMembersHash !== lastMembersHash) {
+                if (checkMemberStatus()) {
+                    // Update currentMember with latest data
+                    const updatedMember = members.find(member => member.memberId === currentMember.memberId);
+                    if (updatedMember) {
+                        currentMember = updatedMember;
+                        localStorage.setItem('currentMember', JSON.stringify(currentMember));
+                        loadProfile();
+                    }
+                }
+                lastMembersHash = currentMembersHash;
+            }
+
+            if (currentLoansHash !== lastLoansHash) {
+                loadLoanHistory();
+                lastLoansHash = currentLoansHash;
+            }
+        }
+
+        // Initial load
+        window.onload = () => {
+            initializeMember();
+            if (checkMemberStatus()) {
+                loadProfile();
+                loadLoanHistory();
+                lastMembersHash = hashData(JSON.parse(localStorage.getItem('members')) || []);
+                lastLoansHash = hashData(JSON.parse(localStorage.getItem('loans')) || []);
+                setInterval(checkForUpdates, 1000); // Check every 1 second
+            }
+        };
+    </script>
+</body>
+</html>
